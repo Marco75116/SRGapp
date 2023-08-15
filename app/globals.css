@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    background-color: #FAFAFA; /* Dark black background */
+    color: #ffffff; 
+}
+
+.center {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
