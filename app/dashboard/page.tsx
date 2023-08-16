@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import EchartsComponent from "./echarts/EchartsComponent";
+import EchartsComponent from "./[searchAddress]/echarts/EchartsComponent";
 import {
   Card,
   CardContent,
@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import axios from "axios";
+import CardSearch from "./CardSelect/CardSelect";
 
 export const revalidate = 10;
 
@@ -27,21 +28,8 @@ const page: FC<pageProps> = async () => {
   const data = await getData();
 
   return (
-    <div>
-      <div className="center h-[100vh] p-[20%] ">
-        <Card className=" w-[100%]">
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <EchartsComponent data={data} />
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      </div>
+    <div className="flex justify-center items-center min-h-[inherit]">
+      <CardSearch />
     </div>
   );
 };

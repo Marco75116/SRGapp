@@ -17,20 +17,15 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
         position: function (pt) {
           return [pt[0], "10%"];
         },
-      },
-      title: {
-        left: "center",
-        text: "Large Area Chart",
-      },
-      toolbox: {
-        feature: {
-          dataZoom: {
-            yAxisIndex: "none",
-          },
-          restore: {},
-          saveAsImage: {},
+        formatter: function (params: any) {
+          const value = params[0].value;
+          const date = new Date(value[0]);
+          const formattedDate = date.toLocaleString(); // Format the date using the browser's locale settings
+          const formattedValue = "$" + value[1].toFixed(8);
+          return `Date: ${formattedDate}<br />Price: ${formattedValue}`;
         },
       },
+
       xAxis: {
         type: "time",
         boundaryGap: false,
@@ -57,7 +52,7 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
       ],
       series: [
         {
-          name: "Fake Data",
+          name: "Price",
           type: "line",
           smooth: true,
           symbol: "none",
