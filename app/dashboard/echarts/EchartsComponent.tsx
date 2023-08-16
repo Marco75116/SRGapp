@@ -1,24 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
 import * as echarts from "echarts";
+type EchartsComponentProps = {
+  data: [number, number][];
+};
 
-const EchartsComponent = () => {
+const EchartsComponent = ({ data }: EchartsComponentProps) => {
   useEffect(() => {
     const chartDom = document.getElementById("chart");
     const myChart = echarts.init(chartDom!);
     let option: echarts.EChartsOption;
-
-    let base = +new Date(2000, 9, 3);
-    let oneDay = 24 * 3600 * 1000;
-    let data: [number, number][] = [[base, Math.random() * 300]];
-
-    for (let i = 1; i < 720; i++) {
-      let now = new Date((base += oneDay));
-      data.push([
-        +now,
-        Math.round((Math.random() - 0.5) * 20 + data[i - 1][1]),
-      ]);
-    }
 
     option = {
       tooltip: {
@@ -83,7 +74,7 @@ const EchartsComponent = () => {
     return () => {
       myChart.dispose(); // Dispose of the chart when the component unmounts
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, [data]); // Empty dependency array ensures the effect runs only once
 
   return <div id="chart" style={{ width: "auto", height: "400px" }} />;
 };
