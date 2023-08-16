@@ -13,12 +13,22 @@ import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { SheetSide } from "./sideSheet/SideSheet";
+import VolumeChart from "./volumeChart/VolumeChart";
 
-export const revalidate = 10;
+export const revalidate = 1000;
 
-const getData = async () => {
+const getDataPrice = async () => {
   try {
-    const response = await axios.get("http://localhost:6002/");
+    const response = await axios.get("http://localhost:6002/prices");
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    throw error;
+  }
+};
+const getDataVolume = async () => {
+  try {
+    const response = await axios.get("http://localhost:6002/volumes");
     return response.data;
   } catch (error) {
     console.error("Error retrieving data:", error);
@@ -32,7 +42,8 @@ interface pageProps {
 }
 
 const page = async ({ params }: pageProps) => {
-  const data = await getData();
+  const data = await getDataPrice();
+  const dataVolume = await getDataVolume();
 
   return (
     <div>
@@ -84,7 +95,7 @@ const page = async ({ params }: pageProps) => {
                 <EchartsComponent data={data} />
               </TabsContent>
               <TabsContent value="Volume">
-                Change your password here.
+                <VolumeChart dataVolume={dataVolume} />
               </TabsContent>
             </Tabs>
           </CardContent>

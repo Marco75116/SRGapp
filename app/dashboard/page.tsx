@@ -1,21 +1,13 @@
 import React, { FC } from "react";
-import EchartsComponent from "./[searchAddress]/echarts/EchartsComponent";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import axios from "axios";
 import CardSearch from "./CardSelect/CardSelect";
 
-export const revalidate = 10;
+export const revalidate = 1000;
 
 const getData = async () => {
   try {
-    const response = await axios.get("http://localhost:6002/");
+    const response = await axios.get("http://localhost:6002/prices");
     return response.data;
   } catch (error) {
     console.error("Error retrieving data:", error);

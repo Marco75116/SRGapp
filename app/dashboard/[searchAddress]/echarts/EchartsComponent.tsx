@@ -18,9 +18,9 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
           return [pt[0], "10%"];
         },
         formatter: function (params: any) {
-          const value = params[0].value;
+          const value: [number, number] = params[0].value;
           const date = new Date(value[0]);
-          const formattedDate = date.toLocaleString(); // Format the date using the browser's locale settings
+          const formattedDate = date.toLocaleString();
           const formattedValue = "$" + value[1].toFixed(8);
           return `Date: ${formattedDate}<br />Price: ${formattedValue}`;
         },
