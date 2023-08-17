@@ -18,7 +18,7 @@ import SheetSide from "./sideSheet/SideSheet";
 import CardInfoToken from "./cardInfoToken/CardInfoToken";
 import { apiUrl } from "@/lib/constants";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 const getDataPrice = async (searchAddress: string) => {
   try {
