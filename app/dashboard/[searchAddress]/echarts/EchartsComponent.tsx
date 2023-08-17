@@ -28,11 +28,11 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
 
       xAxis: {
         type: "time",
-        boundaryGap: false,
-      } as any,
+        boundaryGap: [0, 0],
+      },
       yAxis: {
         type: "value",
-        boundaryGap: [0, "100%"],
+        boundaryGap: [0, 0],
         axisLabel: {
           formatter: function (value) {
             return "$" + value.toFixed(8); // Format the value with a dollar symbol and two decimal places
@@ -43,11 +43,11 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
         {
           type: "inside",
           start: 0,
-          end: 20,
+          end: 100,
         },
         {
           start: 0,
-          end: 20,
+          end: 100,
         },
       ],
       series: [

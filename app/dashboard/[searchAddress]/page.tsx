@@ -12,26 +12,35 @@ import { ArrowUpRight, Coins } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { SheetSide } from "./sideSheet/SideSheet";
+
 import VolumeChart from "./volumeChart/VolumeChart";
+import SheetSide from "./sideSheet/SideSheet";
 
 export const revalidate = 1000;
 
-const getDataPrice = async () => {
+const getDataPrice = async (searchAddress: string) => {
   try {
-    const response = await axios.get("http://localhost:6002/prices");
+    const response = await axios.get("http://localhost:6002/prices", {
+      params: {
+        address: searchAddress,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error retrieving data:", error);
+    console.error("Error retrieving price:", error);
     throw error;
   }
 };
-const getDataVolume = async () => {
+const getDataVolume = async (searchAddress: string) => {
   try {
-    const response = await axios.get("http://localhost:6002/volumes");
+    const response = await axios.get("http://localhost:6002/volumes", {
+      params: {
+        address: searchAddress,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error retrieving data:", error);
+    console.error("Error retrieving volume:", error);
     throw error;
   }
 };
@@ -39,11 +48,14 @@ interface pageProps {
   params: {
     searchAddress: string;
   };
+  searchParams: {
+    blockchain: string;
+  };
 }
 
-const page = async ({ params }: pageProps) => {
-  const data = await getDataPrice();
-  const dataVolume = await getDataVolume();
+const page = async ({ params, searchParams }: pageProps) => {
+  const data = await getDataPrice(params.searchAddress);
+  const dataVolume = await getDataVolume(params.searchAddress);
 
   return (
     <div>
@@ -52,19 +64,25 @@ const page = async ({ params }: pageProps) => {
           <div className="flex justify-between">
             <CardHeader>
               <CardTitle className=" flex gap-2 items-center">
-                Analytics <Badge variant="outline">Mainnet</Badge>
+                Analytics{" "}
+                <Badge variant="outline" className="capitalize">
+                  {searchParams.blockchain}
+                </Badge>
               </CardTitle>
 
               <CardDescription className="flex flex-row items-center gap-2 ">
                 {params.searchAddress}
                 <Link
-                  href={`https://etherscan.io/token/${params.searchAddress}}`}
+                  href={`https://etherscan.io/token/${params.searchAddress}`}
                   target="_blank"
                 >
                   <ArrowUpRight />
                 </Link>
               </CardDescription>
-              <SheetSide />
+              <SheetSide
+                searchAddress={params.searchAddress}
+                blockchain={searchParams.blockchain}
+              />
             </CardHeader>
             <Card className="m-6 h-40 w-80">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

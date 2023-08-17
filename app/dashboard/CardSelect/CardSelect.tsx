@@ -22,8 +22,10 @@ import { useRouter } from "next/navigation";
 
 const CardSearch = () => {
   const { push } = useRouter();
-  const [addressSRG20, setAddressSRG20] = useState<string>("");
+  const [addressSRG20, setAddressSRG20] = useState<string>();
   const srgETH = "0xcD682EF09d07668d49A8103ddD65Ff54AebFbfDe";
+
+  const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
 
   return (
     <Card className="w-[350px]">
@@ -36,14 +38,18 @@ const CardSearch = () => {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
               <Label htmlFor="DexVersion">Blockchain</Label>
-              <Select>
+              <Select
+                onValueChange={(e) => {
+                  setSelectedBlockchain(e);
+                }}
+              >
                 <SelectTrigger id="DexVersion">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="Mainnet">Mainnet</SelectItem>
-                  <SelectItem value="BNB Chain">BNB Chain</SelectItem>
-                  <SelectItem value="Arbitrum">Arbitrum</SelectItem>
+                  <SelectItem value="mainnet">Mainnet</SelectItem>
+                  <SelectItem value="bnbchain">BNB Chain</SelectItem>
+                  <SelectItem value="arbitrum">Arbitrum</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -75,9 +81,9 @@ const CardSearch = () => {
       <CardFooter className="flex justify-end">
         <Button
           onClick={() => {
-            push(`/dashboard/${addressSRG20}`);
+            push(`/dashboard/${addressSRG20}?blockchain=${selectedBlockchain}`);
           }}
-          disabled={!addressSRG20}
+          disabled={!addressSRG20 || !selectedBlockchain}
         >
           View Swaps
         </Button>

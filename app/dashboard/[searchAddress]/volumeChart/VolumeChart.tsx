@@ -44,7 +44,7 @@ const VolumeChart = ({ dataVolume }: VolumeChartProps) => {
       },
       xAxis: {
         type: "time",
-        boundaryGap: false,
+        boundaryGap: [0, 0],
         axisLabel: {
           formatter: (value) => {
             const date = new Date(value);
@@ -53,7 +53,7 @@ const VolumeChart = ({ dataVolume }: VolumeChartProps) => {
             }-${date.getUTCDate()}`;
           },
         },
-      } as any,
+      },
       yAxis: [
         {
           type: "value",
@@ -68,12 +68,12 @@ const VolumeChart = ({ dataVolume }: VolumeChartProps) => {
       dataZoom: [
         {
           show: true,
-          start: 94,
+          start: 0,
           end: 100,
         },
         {
           type: "inside",
-          start: 94,
+          start: 0,
           end: 100,
         },
         {

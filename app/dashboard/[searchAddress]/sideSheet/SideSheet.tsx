@@ -20,13 +20,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export function SheetSide() {
+type SheetSideProps = {
+  searchAddress: string;
+  blockchain: string;
+};
+
+const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
+  const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
+  const [addressSRG20, setAddressSRG20] = useState<string>();
   const { push } = useRouter();
 
-  const [addressSRG20, setAddressSRG20] = useState<string>("");
+  useEffect(() => {
+    setSelectedBlockchain(blockchain);
+    setAddressSRG20(searchAddress);
+  }, [searchAddress, blockchain]);
+
   const srgETH = "0xcD682EF09d07668d49A8103ddD65Ff54AebFbfD";
   return (
     <div className="grid grid-cols-2 gap-2">
@@ -47,14 +58,19 @@ export function SheetSide() {
               <Label htmlFor="name" className="text-right text-black">
                 Blockchain
               </Label>
-              <Select>
+              <Select
+                onValueChange={(e) => {
+                  setSelectedBlockchain(e);
+                }}
+                value={selectedBlockchain}
+              >
                 <SelectTrigger className="col-span-3" id="DexVersion">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="Mainnet">Mainnet</SelectItem>
-                  <SelectItem value="BNB Chain">BNB Chain</SelectItem>
-                  <SelectItem value="Arbitrum">Arbitrum</SelectItem>
+                  <SelectItem value="mainnet">Mainnet</SelectItem>
+                  <SelectItem value="bnbchain">BNB Chain</SelectItem>
+                  <SelectItem value="arbitrum">Arbitrum</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -88,7 +104,9 @@ export function SheetSide() {
               <Button
                 type="submit"
                 onClick={() => {
-                  push(`/dashboard/${addressSRG20}`);
+                  push(
+                    `/dashboard/${addressSRG20}?blockchain=${selectedBlockchain}`
+                  );
                 }}
               >
                 Save changes
@@ -99,4 +117,6 @@ export function SheetSide() {
       </Sheet>
     </div>
   );
-}
+};
+
+export default SheetSide;
