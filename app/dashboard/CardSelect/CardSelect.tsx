@@ -81,6 +81,9 @@ const CardSearch = () => {
       <CardFooter className="flex justify-end">
         <Button
           onClick={() => {
+            console.log(
+              `/dashboard/${addressSRG20}?blockchain=${selectedBlockchain}`
+            );
             push(`/dashboard/${addressSRG20}?blockchain=${selectedBlockchain}`);
           }}
           disabled={!addressSRG20 || !selectedBlockchain}
