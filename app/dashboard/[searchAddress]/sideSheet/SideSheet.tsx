@@ -22,10 +22,11 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Blockchain } from "@/lib/types/global.types";
 
 type SheetSideProps = {
   searchAddress: string;
-  blockchain: string;
+  blockchain: Blockchain;
 };
 
 const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {

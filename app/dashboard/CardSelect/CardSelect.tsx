@@ -19,13 +19,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { Blockchain } from "@/lib/types/global.types";
 
 const CardSearch = () => {
   const { push } = useRouter();
   const [addressSRG20, setAddressSRG20] = useState<string>();
   const srgETH = "0xcD682EF09d07668d49A8103ddD65Ff54AebFbfDe";
 
-  const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
+  const [selectedBlockchain, setSelectedBlockchain] = useState<Blockchain>();
 
   return (
     <Card className="w-[350px]">
@@ -39,7 +40,7 @@ const CardSearch = () => {
             <div className="flex flex-col space-y-2">
               <Label htmlFor="DexVersion">Blockchain</Label>
               <Select
-                onValueChange={(e) => {
+                onValueChange={(e: Blockchain) => {
                   setSelectedBlockchain(e);
                 }}
               >

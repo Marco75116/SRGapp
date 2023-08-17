@@ -17,14 +17,16 @@ import VolumeChart from "./volumeChart/VolumeChart";
 import SheetSide from "./sideSheet/SideSheet";
 import CardInfoToken from "./cardInfoToken/CardInfoToken";
 import { apiUrl } from "@/lib/constants";
+import { Blockchain } from "@/lib/types/global.types";
 
 // export const revalidate = 0;
 
-const getDataPrice = async (searchAddress: string) => {
+const getDataPrice = async (searchAddress: string, blockchain: Blockchain) => {
   try {
     const response = await axios.get(`${apiUrl}/prices`, {
       params: {
         address: searchAddress,
+        blockchain: blockchain,
       },
     });
     return response.data;
@@ -34,11 +36,12 @@ const getDataPrice = async (searchAddress: string) => {
   }
 };
 
-const getDataVolume = async (searchAddress: string) => {
+const getDataVolume = async (searchAddress: string, blockchain: Blockchain) => {
   try {
     const response = await axios.get(`${apiUrl}/volumes`, {
       params: {
         address: searchAddress,
+        blockchain: blockchain,
       },
     });
     return response.data;
@@ -48,11 +51,15 @@ const getDataVolume = async (searchAddress: string) => {
   }
 };
 
-const getDataLiquidity = async (searchAddress: string) => {
+const getDataLiquidity = async (
+  searchAddress: string,
+  blockchain: Blockchain
+) => {
   try {
     const response = await axios.get(`${apiUrl}/liquidities`, {
       params: {
         address: searchAddress,
+        blockchain: blockchain,
       },
     });
     return response.data;
@@ -66,14 +73,23 @@ interface pageProps {
     searchAddress: string;
   };
   searchParams: {
-    blockchain: string;
+    blockchain: Blockchain;
   };
 }
 
 const page = async ({ params, searchParams }: pageProps) => {
-  const dataPrice = await getDataPrice(params.searchAddress);
-  const dataVolume = await getDataVolume(params.searchAddress);
-  const dataLiquidity = await getDataLiquidity(params.searchAddress);
+  const dataPrice = await getDataPrice(
+    params.searchAddress,
+    searchParams.blockchain
+  );
+  const dataVolume = await getDataVolume(
+    params.searchAddress,
+    searchParams.blockchain
+  );
+  const dataLiquidity = await getDataLiquidity(
+    params.searchAddress,
+    searchParams.blockchain
+  );
 
   return (
     <div>

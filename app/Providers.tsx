@@ -12,7 +12,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
   [
     alchemyProvider({
-      apiKey: process.env.NEXT_PUBLIC_API_KEY_RPC_MAINNET || "",
+      apiKey: process.env.NEXT_PUBLIC_API_KEY_ALCHEMY || "",
     }),
     publicProvider(),
   ]
