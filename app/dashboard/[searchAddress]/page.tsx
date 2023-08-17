@@ -31,9 +31,24 @@ const getDataPrice = async (searchAddress: string) => {
     throw error;
   }
 };
+
 const getDataVolume = async (searchAddress: string) => {
   try {
     const response = await axios.get("http://localhost:6002/volumes", {
+      params: {
+        address: searchAddress,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving volume:", error);
+    throw error;
+  }
+};
+
+const getDataLiquidity = async (searchAddress: string) => {
+  try {
+    const response = await axios.get("http://localhost:6002/liquidities", {
       params: {
         address: searchAddress,
       },
@@ -54,8 +69,9 @@ interface pageProps {
 }
 
 const page = async ({ params, searchParams }: pageProps) => {
-  const data = await getDataPrice(params.searchAddress);
+  const dataPrice = await getDataPrice(params.searchAddress);
   const dataVolume = await getDataVolume(params.searchAddress);
+  const dataLiquidity = await getDataLiquidity(params.searchAddress);
 
   return (
     <div>
@@ -108,12 +124,16 @@ const page = async ({ params, searchParams }: pageProps) => {
               <TabsList>
                 <TabsTrigger value="Price">Price Chart</TabsTrigger>
                 <TabsTrigger value="Volume">Volume Chart</TabsTrigger>
+                <TabsTrigger value="Liquidity">Liquidity Chart</TabsTrigger>
               </TabsList>
               <TabsContent value="Price">
-                <EchartsComponent data={data} />
+                <EchartsComponent data={dataPrice} />
               </TabsContent>
               <TabsContent value="Volume">
                 <VolumeChart dataVolume={dataVolume} />
+              </TabsContent>
+              <TabsContent value="Liquidity">
+                <EchartsComponent data={dataLiquidity} />
               </TabsContent>
             </Tabs>
           </CardContent>

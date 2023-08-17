@@ -35,7 +35,7 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
         boundaryGap: [0, 0],
         axisLabel: {
           formatter: function (value) {
-            return "$" + value.toFixed(8); // Format the value with a dollar symbol and two decimal places
+            return "$" + value.toFixed(value > 1 || value === 0 ? 0 : 8);
           },
         },
       },
@@ -67,9 +67,9 @@ const EchartsComponent = ({ data }: EchartsComponentProps) => {
     }
 
     return () => {
-      myChart.dispose(); // Dispose of the chart when the component unmounts
+      myChart.dispose();
     };
-  }, [data]); // Empty dependency array ensures the effect runs only once
+  }, [data]);
 
   return <div id="chart" style={{ width: "auto", height: "400px" }} />;
 };
