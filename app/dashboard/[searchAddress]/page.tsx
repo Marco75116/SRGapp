@@ -78,18 +78,24 @@ interface pageProps {
 }
 
 const page = async ({ params, searchParams }: pageProps) => {
-  const dataPrice = await getDataPrice(
+  const dataPrice = getDataPrice(params.searchAddress, searchParams.blockchain);
+  const dataVolume = getDataVolume(
     params.searchAddress,
     searchParams.blockchain
   );
-  const dataVolume = await getDataVolume(
+  const dataLiquidity = getDataLiquidity(
     params.searchAddress,
     searchParams.blockchain
   );
-  const dataLiquidity = await getDataLiquidity(
-    params.searchAddress,
-    searchParams.blockchain
-  );
+
+  const result: [
+    [number, number][],
+    {
+      volumePeriod: [number, number][];
+      swaps: [number, number][];
+    },
+    [number, number][]
+  ] = await Promise.all([dataPrice, dataVolume, dataLiquidity]);
 
   return (
     <div>
@@ -118,7 +124,10 @@ const page = async ({ params, searchParams }: pageProps) => {
                 blockchain={searchParams.blockchain}
               />
             </CardHeader>
-            <CardInfoToken searchToken={params.searchAddress} />
+            <CardInfoToken
+              searchToken={params.searchAddress}
+              blockchain={searchParams.blockchain}
+            />
           </div>
           <CardContent>
             <Tabs defaultValue="Price" className="p3 w-[100%]">
@@ -128,13 +137,13 @@ const page = async ({ params, searchParams }: pageProps) => {
                 <TabsTrigger value="Liquidity">Liquidity Chart</TabsTrigger>
               </TabsList>
               <TabsContent value="Price">
-                <EchartsComponent data={dataPrice} />
+                <EchartsComponent data={result[0]} />
               </TabsContent>
               <TabsContent value="Volume">
-                <VolumeChart dataVolume={dataVolume} />
+                <VolumeChart dataVolume={result[1]} />
               </TabsContent>
               <TabsContent value="Liquidity">
-                <EchartsComponent data={dataLiquidity} />
+                <EchartsComponent data={result[2]} />
               </TabsContent>
             </Tabs>
           </CardContent>

@@ -7,16 +7,28 @@ import { publicProvider } from "wagmi/providers/public";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "@wagmi/core/connectors/coinbaseWallet";
 import MainProvider from "@/context/Main.context";
+import { arbitrum, bsc } from "viem/chains";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
+  [mainnet, arbitrum, bsc],
   [
     alchemyProvider({
       apiKey: process.env.NEXT_PUBLIC_API_KEY_ALCHEMY || "",
     }),
+    alchemyProvider({
+      apiKey: process.env.NEXT_PUBLIC_API_KEY_ALCHEMY_ARBITRUM || "",
+    }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_RPC_BNB || "",
+      }),
+    }),
     publicProvider(),
   ]
 );
+
+// console.log(chains.length);
 
 const config = createConfig({
   autoConnect: true,

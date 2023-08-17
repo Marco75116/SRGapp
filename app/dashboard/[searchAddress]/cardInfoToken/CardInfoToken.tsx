@@ -11,12 +11,15 @@ import { Coins } from "lucide-react";
 import { Address } from "viem";
 import { useContractReads } from "wagmi";
 import { abiSrg20 } from "@/lib/abi/abiSRG20";
+import { Blockchain } from "@/lib/types/global.types";
+import { getChaindId } from "@/lib/global.helper";
 
 type CardInfoTokenProps = {
   searchToken: string;
+  blockchain: Blockchain;
 };
 
-const CardInfoToken = ({ searchToken }: CardInfoTokenProps) => {
+const CardInfoToken = ({ searchToken, blockchain }: CardInfoTokenProps) => {
   const [symbol, setSymbol] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [decimals, setDecimals] = useState<number>(0);
@@ -30,31 +33,37 @@ const CardInfoToken = ({ searchToken }: CardInfoTokenProps) => {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "symbol",
+        chainId: getChaindId(blockchain),
       },
       {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "decimals",
+        chainId: getChaindId(blockchain),
       },
       {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "name",
+        chainId: getChaindId(blockchain),
       },
       {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "calculatePrice",
+        chainId: getChaindId(blockchain),
       },
       {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "getSRGPrice",
+        chainId: getChaindId(blockchain),
       },
       {
         address: searchToken as Address,
         abi: abiSrg20 as any,
         functionName: "getMarketCap",
+        chainId: getChaindId(blockchain),
       },
     ],
     onSuccess(data: any) {
@@ -65,6 +74,7 @@ const CardInfoToken = ({ searchToken }: CardInfoTokenProps) => {
       setSrgPrice(Number(data[4].result));
       setMarketCap(Number(data[5].result));
     },
+    enabled: blockchain !== undefined && searchToken !== undefined,
     watch: true,
   }) as any;
 
