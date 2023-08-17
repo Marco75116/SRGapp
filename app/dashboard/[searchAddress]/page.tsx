@@ -16,12 +16,13 @@ import { Badge } from "@/components/ui/badge";
 import VolumeChart from "./volumeChart/VolumeChart";
 import SheetSide from "./sideSheet/SideSheet";
 import CardInfoToken from "./cardInfoToken/CardInfoToken";
+import { apiUrl } from "@/lib/constants";
 
 export const revalidate = 1000;
 
 const getDataPrice = async (searchAddress: string) => {
   try {
-    const response = await axios.get("http://localhost:6002/prices", {
+    const response = await axios.get(`${apiUrl}/prices`, {
       params: {
         address: searchAddress,
       },
@@ -35,7 +36,7 @@ const getDataPrice = async (searchAddress: string) => {
 
 const getDataVolume = async (searchAddress: string) => {
   try {
-    const response = await axios.get("http://localhost:6002/volumes", {
+    const response = await axios.get(`${apiUrl}/volumes`, {
       params: {
         address: searchAddress,
       },
@@ -49,14 +50,14 @@ const getDataVolume = async (searchAddress: string) => {
 
 const getDataLiquidity = async (searchAddress: string) => {
   try {
-    const response = await axios.get("http://localhost:6002/liquidities", {
+    const response = await axios.get(`${apiUrl}/liquidities`, {
       params: {
         address: searchAddress,
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Error retrieving volume:", error);
+    console.error("Error retrieving liquidity:", error);
     throw error;
   }
 };
