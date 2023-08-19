@@ -27,6 +27,7 @@ const getDataPrice = async (searchAddress: string, blockchain: Blockchain) => {
       params: {
         address: searchAddress,
         blockchain: blockchain,
+        period: "d",
       },
     });
     return response.data;
@@ -60,6 +61,7 @@ const getDataLiquidity = async (
       params: {
         address: searchAddress,
         blockchain: blockchain,
+        period: "d",
       },
     });
     return response.data;
