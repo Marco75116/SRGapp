@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
@@ -20,9 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Blockchain } from "@/lib/types/global.types";
+import { MainContext } from "@/context/Main.context";
 
 type SheetSideProps = {
   searchAddress: string;
@@ -33,13 +33,17 @@ const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>();
   const [addressSRG20, setAddressSRG20] = useState<string>();
   const { push } = useRouter();
+  const { tokens } = useContext(MainContext);
+
+  const idTokenSelected = useMemo(() => {
+    return tokens.find((token) => token.id === addressSRG20)?.id;
+  }, [tokens, addressSRG20]);
 
   useEffect(() => {
     setSelectedBlockchain(blockchain);
     setAddressSRG20(searchAddress);
   }, [searchAddress, blockchain]);
 
-  const srgETH = "0xcD682EF09d07668d49A8103ddD65Ff54AebFbfD";
   return (
     <div className="grid grid-cols-2 gap-2">
       <Sheet key={"right"}>
@@ -70,34 +74,33 @@ const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
                 </SelectTrigger>
                 <SelectContent position="popper">
                   <SelectItem value="mainnet">Mainnet</SelectItem>
-                  <SelectItem value="bnbchain">BNB Chain</SelectItem>
-                  <SelectItem value="arbitrum">Arbitrum</SelectItem>
+                  {/* <SelectItem value="bnbchain">BNB Chain</SelectItem> */}
+                  {/* <SelectItem value="arbitrum">Arbitrum</SelectItem> */}
                 </SelectContent>
               </Select>
             </div>
+
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right text-black">
-                Address
-              </Label>
-              <div className="flex gap-2 col-span-3">
-                <Input
-                  id="address"
-                  placeholder="Paste SRG20 address"
-                  value={addressSRG20}
-                  onChange={(e) => {
-                    setAddressSRG20(e.target.value);
-                  }}
-                />
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => {
-                    setAddressSRG20(srgETH);
-                  }}
-                >
-                  Native
-                </Button>
-              </div>
+              <Label htmlFor="DexVersion">SRG20</Label>
+              <Select
+                value={idTokenSelected}
+                onValueChange={(e: Blockchain) => {
+                  setAddressSRG20(e);
+                }}
+              >
+                <SelectTrigger id="DexVersion" className="col-span-3">
+                  <SelectValue placeholder="Select token" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  {tokens.map((token, index) => {
+                    return (
+                      <SelectItem key={index} value={token.id}>
+                        {token.symbol}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <SheetFooter className="">

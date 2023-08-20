@@ -28,8 +28,6 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   ]
 );
 
-// console.log(chains.length);
-
 const config = createConfig({
   autoConnect: true,
   connectors: [
@@ -37,7 +35,7 @@ const config = createConfig({
     new CoinbaseWalletConnector({
       chains,
       options: {
-        appName: "uniMagnifier",
+        appName: "SRG20APP",
       },
     }),
   ],

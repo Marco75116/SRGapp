@@ -5,3 +5,8 @@ export const blockchainEnum = {
 } as const;
 
 export type Blockchain = (typeof blockchainEnum)[keyof typeof blockchainEnum];
+
+export type Token = {
+  symbol: string;
+  id: string;
+};

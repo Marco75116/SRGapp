@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 
-import axios from "axios";
 import CardSearch from "./CardSelect/CardSelect";
-
-export const revalidate = 1000;
 
 interface pageProps {}
 
