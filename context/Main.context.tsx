@@ -1,6 +1,7 @@
 "use client";
 
 import { client } from "@/lib/clients/apollo.client";
+import { useWidthScreen } from "@/lib/hooks/useWidthScreen";
 import { Token } from "@/lib/types/global.types";
 import { gql } from "@apollo/client";
 import { ReactNode, createContext, useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 type MainContextProps = {
   tokens: Token[];
   setTokens: Function;
+  screenWidth: number;
 };
 
 type MainProviderProps = { children: ReactNode };
@@ -24,6 +26,7 @@ const tokensQuery = `
 
 const MainProvider = ({ children }: MainProviderProps) => {
   const [tokens, setTokens] = useState<Token[]>([]);
+  const { screenWidth } = useWidthScreen();
 
   useEffect(() => {
     client
@@ -38,7 +41,7 @@ const MainProvider = ({ children }: MainProviderProps) => {
   }, []);
 
   return (
-    <MainContext.Provider value={{ tokens, setTokens }}>
+    <MainContext.Provider value={{ tokens, setTokens, screenWidth }}>
       {children}
     </MainContext.Provider>
   );
