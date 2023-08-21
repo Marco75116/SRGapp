@@ -52,14 +52,11 @@ const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
         </SheetTrigger>
         <SheetContent side={"right"}>
           <SheetHeader>
-            <SheetTitle>Edit Search</SheetTitle>
-            <SheetDescription>
-              Make changes to your profile here. Click save when you`&apos;`re
-              done.
-            </SheetDescription>
+            <SheetTitle>Edit Srg20 token Searched</SheetTitle>
+            <SheetDescription></SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4 text-black">
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-4 items-center gap-4 ">
               <Label htmlFor="name" className="text-right text-black">
                 Blockchain
               </Label>
@@ -69,7 +66,10 @@ const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
                 }}
                 value={selectedBlockchain}
               >
-                <SelectTrigger className="col-span-3" id="DexVersion">
+                <SelectTrigger
+                  className=" col-span-2 col-end-5 lg:col-span-3"
+                  id="DexVersion"
+                >
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
@@ -88,7 +88,10 @@ const SheetSide = ({ searchAddress, blockchain }: SheetSideProps) => {
                   setAddressSRG20(e);
                 }}
               >
-                <SelectTrigger id="DexVersion" className="col-span-3">
+                <SelectTrigger
+                  id="DexVersion"
+                  className=" col-span-2 col-end-5  lg:col-span-3"
+                >
                   <SelectValue placeholder="Select token" />
                 </SelectTrigger>
                 <SelectContent position="popper">
